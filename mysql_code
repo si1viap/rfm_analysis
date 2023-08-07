@@ -1,0 +1,43 @@
+CREATE TABLE rfm_analysis(
+	movement_type_id INT,
+	parent_movement_id VARCHAR(2),
+	agency_id BIGINT,
+ 	made_by_user_id BIGINT,
+	subscription_id INT,
+	course_activation_code_id INT,
+	electronic_payment_id INT,
+	agency_plan_log_id INT,
+	live_course_event_session_id INT,
+	two_factor_auth_log_id INT,
+	value BIGINT,
+	note VARCHAR(5000),
+	ignore_for_balance_analysis VARCHAR(9),
+	created_at TIMESTAMP,
+	updated_at TIMESTAMP
+);
+
+ALTER TABLE rfm_analysis ADD COLUMN `order_id` int(10) UNSIGNED PRIMARY KEY AUTO_INCREMENT FIRST;
+
+SELECT agency_id, DATEDIFF('2023-08-07',MAX(created_at)) AS Recency,
+       COUNT(order_id) AS Frequency,
+       SUM(value) AS Monetary_Value
+FROM rfm_analysis
+GROUP BY agency_id;
+
+CREATE VIEW rfm_calc AS 
+	SELECT agency_id, DATEDIFF('2023-08-07',MAX(created_at)) AS Recency,
+			COUNT(order_id) AS Frequency,
+       		SUM(value) AS Monetary_Value
+	FROM rfm_analysis
+	GROUP BY agency_id;
+
+MinMax AS(
+	SELECT 
+			MIN(Recency) AS Rmin,
+			MAX(Recency) AS Rmax,
+			MIN(Frequency) AS Fmin,
+			MAX(Frequency) AS Fmax,
+			MIN(Monetary_Value) AS Mmin,
+			MAX(Monetary_Value) AS Mmax
+	 FROM rfm_calc
+);
