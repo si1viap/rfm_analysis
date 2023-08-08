@@ -17,3 +17,4 @@ Finally, I found the rfm score based on the previous calculations and managed to
 Lost:	111, 112, 121, 131, 141, 151.
 
 
+References: https://connectif.ai/en/blog/what-are-rfm-scores-and-how-to-calculate-them/
