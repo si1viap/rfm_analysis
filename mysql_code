@@ -1,3 +1,5 @@
+Skills used: GROUP BY, Joins, Unions, Views, CASE, PERCENT_RANK
+
 -- create table
 
 CREATE TABLE rfm_analysis(
@@ -54,7 +56,9 @@ SELECT DISTINCT
  		'Monetary_Value' AS RFM,
  		  M.Mmin AS Min,
 		  FIRST_VALUE(Monetary_Value) OVER(ORDER BY CASE WHEN p <=0.2 THEN p END DESC) p2, 
-		  FIRST_VALUE(Monetary_Value) OVER(ORDER BY CASE WHEN p <=0.4 THEN p END DESC) p4,       		  FIRST_VALUE(Monetary_Value) OVER(ORDER BY CASE WHEN p <=0.6 THEN p END DESC) p6, 	     FIRST_VALUE(Monetary_Value) OVER(ORDER BY CASE WHEN p <=0.8 THEN p END DESC) p8,
+		  FIRST_VALUE(Monetary_Value) OVER(ORDER BY CASE WHEN p <=0.4 THEN p END DESC) p4,       		  
+		  FIRST_VALUE(Monetary_Value) OVER(ORDER BY CASE WHEN p <=0.6 THEN p END DESC) p6, 	    
+                  FIRST_VALUE(Monetary_Value) OVER(ORDER BY CASE WHEN p <=0.8 THEN p END DESC) p8,
 		  M.Mmax AS Max
 
 FROM MinMax As M JOIN (SELECT Monetary_Value, PERCENT_RANK() OVER (ORDER BY Monetary_Value) p
@@ -66,7 +70,9 @@ UNION SELECT DISTINCT
  		'Frequency' AS RFM,
  		  F.Fmin AS Min,
 		  FIRST_VALUE(Frequency) OVER(ORDER BY CASE WHEN p <=0.2 THEN p END DESC) p2, 
-		  FIRST_VALUE(Frequency) OVER(ORDER BY CASE WHEN p <=0.4 THEN p END DESC) p4,       		  FIRST_VALUE(Frequency) OVER(ORDER BY CASE WHEN p <=0.6 THEN p END DESC) p6, 	     		  FIRST_VALUE(Frequency) OVER(ORDER BY CASE WHEN p <=0.8 THEN p END DESC) p8,
+		  FIRST_VALUE(Frequency) OVER(ORDER BY CASE WHEN p <=0.4 THEN p END DESC) p4,       		  
+                  FIRST_VALUE(Frequency) OVER(ORDER BY CASE WHEN p <=0.6 THEN p END DESC) p6, 	     		  
+                  FIRST_VALUE(Frequency) OVER(ORDER BY CASE WHEN p <=0.8 THEN p END DESC) p8,
 		  F.Fmax AS Max
 
 FROM MinMax As F JOIN (SELECT Frequency, PERCENT_RANK() OVER (ORDER BY Frequency) p
@@ -78,7 +84,9 @@ UNION SELECT DISTINCT
  		'Recency' AS RFM,
  		  R.Rmin AS Min,
 		  FIRST_VALUE(Recency) OVER(ORDER BY CASE WHEN p <=0.2 THEN p END DESC) p2, 
-		  FIRST_VALUE(Recency) OVER(ORDER BY CASE WHEN p <=0.4 THEN p END DESC) p4,       		  FIRST_VALUE(Recency) OVER(ORDER BY CASE WHEN p <=0.6 THEN p END DESC) p6, 	     		  FIRST_VALUE(Recency) OVER(ORDER BY CASE WHEN p <=0.8 THEN p END DESC) p8,
+		  FIRST_VALUE(Recency) OVER(ORDER BY CASE WHEN p <=0.4 THEN p END DESC) p4,       		  
+                  FIRST_VALUE(Recency) OVER(ORDER BY CASE WHEN p <=0.6 THEN p END DESC) p6, 	     		  
+                  FIRST_VALUE(Recency) OVER(ORDER BY CASE WHEN p <=0.8 THEN p END DESC) p8,
 		  R.Rmax AS Max
 
 FROM MinMax As R JOIN (SELECT Recency, PERCENT_RANK() OVER (ORDER BY Recency) p
