@@ -84,6 +84,7 @@ UNION SELECT DISTINCT
 FROM MinMax As R JOIN (SELECT Recency, PERCENT_RANK() OVER (ORDER BY Recency) p
 FROM rfm_calc) AS t ON 1=1;
 
+-- RFM scores
 SELECT agency_id, 
 	   Recency,
 		Frequency,
@@ -92,4 +93,20 @@ SELECT agency_id,
 		NTILE(5) OVER(ORDER BY Frequency ASC) AS Frequency_Score, 
 		NTILE(5) OVER(ORDER BY Monetary_Value ASC) AS Monetary_Score 
 FROM rfm_calc
-ORDER BY agency_id
+ORDER BY agency_id;
+
+CREATE VIEW RFM_scores AS
+SELECT agency_id, 
+	   Recency,
+		Frequency,
+		Monetary_Value, 
+		NTILE(5) OVER(ORDER BY Recency DESC) AS Recency_Score, 
+		NTILE(5) OVER(ORDER BY Frequency ASC) AS Frequency_Score, 
+		NTILE(5) OVER(ORDER BY Monetary_Value ASC) AS Monetary_Score 
+FROM rfm_calc
+ORDER BY agency_id;
+
+-- Final result
+SELECT agency_id, CONCAT_WS('-',Recency_Score,Frequency_Score,Monetary_Score) AS R_F_M
+FROM RFM_scores;
+
