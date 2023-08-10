@@ -37,16 +37,15 @@ CREATE VIEW rfm_calc AS
 	GROUP BY agency_id;
 
 -- MinMax values
-MinMax AS(
-	SELECT 
-			MIN(Recency) AS Rmin,
-			MAX(Recency) AS Rmax,
-			MIN(Frequency) AS Fmin,
-			MAX(Frequency) AS Fmax,
-			MIN(Monetary_Value) AS Mmin,
-			MAX(Monetary_Value) AS Mmax
-	 FROM rfm_calc
-);
+CREATE VIEW MinMax AS
+SELECT 
+		MIN(Recency) AS Rmin,
+		MAX(Recency) AS Rmax,
+		MIN(Frequency) AS Fmin,
+		MAX(Frequency) AS Fmax,
+		MIN(Monetary_Value) AS Mmin,
+		MAX(Monetary_Value) AS Mmax
+FROM rfm_calc;
 
 -- Dashboard categories
 
